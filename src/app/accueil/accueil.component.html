@@ -1,0 +1,23 @@
+<h1>Tier list</h1>
+
+<div class="champs">
+  <input [(ngModel)]="saisieImage"/>
+  <div (click)="ajouterImage()" class="bouton">Ajouter</div>
+</div>
+
+<div>
+  @for (categorie of categories; track $index) {
+
+  <div class="categorie">
+    <div class="en-tete">
+      <span>{{ categorie.nom }}</span>
+    </div>
+    <div class="images">
+      @for (image of categorie.images; track $index) {
+      <img src="{{ image }}" />
+      }
+    </div>
+  </div>
+
+  }
+</div>

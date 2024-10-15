@@ -1,0 +1,78 @@
+h1::before {
+  content: "🏠";
+}
+
+.champs {
+  display: flex;
+  margin-bottom: 1em;
+
+  input {
+    width: 600px;
+  }
+
+  .bouton {
+    background-color: #0400ff;
+    color: white;
+    padding: 1em;
+    font-size: 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .bouton:hover {
+    background-color: #0084ff;
+  }
+}
+
+
+.categorie {
+  height: 100px;
+  font-weight: bold;
+  display: flex;
+  background-color: #eee;
+  margin-bottom: 5px;
+
+  .en-tete {
+    width: 100px;
+    height: 100%;
+    color: white;
+    background-color: #ff00b3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &:nth-child(1) .en-tete {
+    background-color: #ff0000;
+  }
+
+  &:nth-child(2) .en-tete {
+    background-color: #ffa600;
+  }
+
+  &:nth-child(3) .en-tete {
+    background-color: #99ff00;
+  }
+
+  &:nth-child(4) .en-tete {
+    background-color: #00fff7;
+  }
+
+  &:nth-child(5) .en-tete {
+    background-color: #0400ff;
+  }
+
+  &:nth-child(6) .en-tete {
+    background-color: #a200ff;
+  }
+
+  .images {
+    display: flex;
+
+    img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+    }
+  }
+}
