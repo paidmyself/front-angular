@@ -6,22 +6,50 @@
 </div>
 
 <div>
-  @for (categorie of categories; track $index) {
-
-  <div class="categorie">
-    <div class="en-tete">
-      <span>{{ categorie.nom }}</span>
-    </div>
-    <div class="images">
-      @for (image of categorie.images; track $index) {
-      <div class="image">
-        <img src="{{ image }}" />
-        <div class="bouton bouton-plus">+</div>
-        <div class="bouton bouton-moins">-</div>
+  @for (
+    categorie of categories;
+    let indexCategorie = $index;
+    track indexCategorie
+  ) {
+    <div class="categorie">
+      <div class="en-tete">
+        <span>{{ categorie.nom }}</span>
       </div>
-      }
-    </div>
-  </div>
+      <div class="images">
+        @for (
+          image of categorie.images;
+          let indexImage = $index;
+          track indexImage
+        ) {
+          <div class="image">
+            <img src="{{ image }}" />
+            @if (indexCategorie != 0) {
+              <div
+                (click)="deplacerImage(indexCategorie, indexImage, false)"
+                class="bouton bouton-plus"
+              >
+                +
+              </div>
+            }
 
+            @if (indexCategorie < categories.length - 1) {
+              <div
+                (click)="deplacerImage(indexCategorie, indexImage)"
+                class="bouton bouton-moins"
+              >
+                -
+              </div>
+            }
+
+            <div
+              (click)="supprimerImage(indexCategorie, indexImage)"
+              class="bouton bouton-supprimer"
+            >
+              x
+            </div>
+          </div>
+        }
+      </div>
+    </div>
   }
 </div>

@@ -77,9 +77,13 @@ h1::before {
         object-fit: cover;
       }
 
+      &:hover .bouton {
+        display: block;
+      }
+
       .bouton {
+        display: none;
         position: absolute;
-        right: 10px;
         background-color: #0084ff;
         color: white;
         font-weight: bold;
@@ -94,11 +98,19 @@ h1::before {
       }
 
       .bouton-plus {
+        right: 10px;
         top: 10px;
       }
 
       .bouton-moins {
+        right: 10px;
         bottom: 10px;
+      }
+
+      .bouton-supprimer {
+        left: 10px;
+        bottom: 10px;
+        background-color: red;
       }
     }
   }
