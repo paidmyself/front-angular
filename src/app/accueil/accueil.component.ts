@@ -12,7 +12,12 @@ export class AccueilComponent {
   saisieImage = '';
 
   categories: { nom: string; images: string[] }[] = [
-    { nom: 'Super', images: [] },
+    {
+      nom: 'Super',
+      images: [
+        'https://www.vsveicolispeciali.com/wp-content/uploads/2024/01/trdelnik-kurtoskalacs-street-food.jpg',
+      ],
+    },
     { nom: 'Bien', images: [] },
     { nom: 'Moyen', images: [] },
     { nom: 'Pas top', images: [] },

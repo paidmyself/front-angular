@@ -1,7 +1,7 @@
 <h1>Tier list</h1>
 
 <div class="champs">
-  <input [(ngModel)]="saisieImage"/>
+  <input [(ngModel)]="saisieImage" />
   <div (click)="ajouterImage()" class="bouton">Ajouter</div>
 </div>
 
@@ -14,7 +14,11 @@
     </div>
     <div class="images">
       @for (image of categorie.images; track $index) {
-      <img src="{{ image }}" />
+      <div class="image">
+        <img src="{{ image }}" />
+        <div class="bouton bouton-plus">+</div>
+        <div class="bouton bouton-moins">-</div>
+      </div>
       }
     </div>
   </div>
