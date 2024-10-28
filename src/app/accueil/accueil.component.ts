@@ -53,8 +53,20 @@ export class AccueilComponent {
   }
 
   supprimerCategorie(indexCategorie: number) {
-    this.categories.splice(indexCategorie, 1);
-    this.sauvegarde();
+    if (this.categories.length > 1) {
+      // on deplace toutes les images de la catégorie à supprimer, une catégories au dessus
+      const indexCategorieCible = indexCategorie == 0 ? 1 : indexCategorie - 1;
+
+      this.categories[indexCategorieCible].images = [
+        ...this.categories[indexCategorieCible].images,
+        ...this.categories[indexCategorie].images,
+      ];
+
+      //on supprime la categorie
+      this.categories.splice(indexCategorie, 1);
+
+      this.sauvegarde();
+    }
   }
 
   ajouterImage() {

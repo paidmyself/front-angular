@@ -19,12 +19,15 @@
     <div class="categorie">
       <div class="en-tete">
         <span>{{ categorie.nom }}</span>
-        <div
-              (click)="supprimerCategorie(indexCategorie)"
-              class="bouton bouton-supprimer"
-            >
-             x
-        </div>
+
+        @if (categories.length > 1) {
+          <div
+            (click)="supprimerCategorie(indexCategorie)"
+            class="bouton bouton-supprimer"
+          >
+            x
+          </div>
+        }
       </div>
       <div class="images">
         @for (
