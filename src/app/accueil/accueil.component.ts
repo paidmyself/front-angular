@@ -14,32 +14,39 @@ export class AccueilComponent {
   categories: { nom: string; images: string[] }[] = [
     {
       nom: 'Super',
-      images: [
-        'https://www.vsveicolispeciali.com/wp-content/uploads/2024/01/trdelnik-kurtoskalacs-street-food.jpg',
-        'https://www.vsveicolispeciali.com/wp-content/uploads/2024/01/trdelnik-kurtoskalacs-street-food.jpg',
-      ],
+      images: [],
     },
     {
       nom: 'Bien',
-      images: [
-        'https://www.vsveicolispeciali.com/wp-content/uploads/2024/01/trdelnik-kurtoskalacs-street-food.jpg',
-      ],
+      images: [],
     },
     {
       nom: 'Moyen',
-      images: [
-        'https://www.vsveicolispeciali.com/wp-content/uploads/2024/01/trdelnik-kurtoskalacs-street-food.jpg',
-        'https://www.vsveicolispeciali.com/wp-content/uploads/2024/01/trdelnik-kurtoskalacs-street-food.jpg',
-      ],
+      images: [],
     },
     { nom: 'Pas top', images: [] },
     { nom: 'Nul', images: [] },
   ];
 
+  ngOnInit() {
+    const jsonCategories = localStorage.getItem('sauvegarde');
+
+    if (jsonCategories) {
+      this.categories = JSON.parse(jsonCategories);
+    }
+  }
+
+  sauvegarde() {
+    const jsonCategories = JSON.stringify(this.categories);
+    localStorage.setItem('sauvegarde', jsonCategories);
+  }
+
   ajouterImage() {
     if (this.saisieImage != '') {
       this.categories[0].images.push(this.saisieImage);
       this.saisieImage = '';
+
+      this.sauvegarde();
     }
   }
 
@@ -49,9 +56,11 @@ export class AccueilComponent {
       imageClique,
     );
     this.categories[indexCategorie].images.splice(indexImage, 1);
+    this.sauvegarde();
   }
 
   supprimerImage(indexCategorie: number, indexImage: number) {
     this.categories[indexCategorie].images.splice(indexImage, 1);
+    this.sauvegarde();
   }
 }
