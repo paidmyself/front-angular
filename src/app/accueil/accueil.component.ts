@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+declare type Categorie = {
+  nom: string;
+  images: string[];
+  editCategorie: boolean;
+};
+
 @Component({
   selector: 'app-accueil',
   standalone: true,
@@ -13,29 +19,28 @@ export class AccueilComponent {
 
   saisieCategorie = '';
 
-  categories: { nom: string; images: string[] }[] = [
-    {
-      nom: 'Super',
-      images: [],
-    },
-    {
-      nom: 'Bien',
-      images: [],
-    },
-    {
-      nom: 'Moyen',
-      images: [],
-    },
-    { nom: 'Pas top', images: [] },
-    { nom: 'Nul', images: [] },
-  ];
+  categories: Categorie[] = [];
 
   ngOnInit() {
     const jsonCategories = localStorage.getItem('sauvegarde');
 
     if (jsonCategories) {
       this.categories = JSON.parse(jsonCategories);
+    } else {
+      this.reset();
     }
+  }
+
+  reset() {
+    this.categories = [
+      { nom: 'Super', images: [], editCategorie: false },
+      { nom: 'Bien', images: [], editCategorie: false },
+      { nom: 'Moyen', images: [], editCategorie: false },
+      { nom: 'Pas top', images: [], editCategorie: false },
+      { nom: 'Nul', images: [], editCategorie: false },
+    ];
+
+    this.sauvegarde();
   }
 
   sauvegarde() {
@@ -45,11 +50,23 @@ export class AccueilComponent {
 
   ajouterCategorie() {
     if (this.saisieCategorie != '') {
-      const nouvelleCategorie = { nom: this.saisieCategorie, images: [] };
+      const nouvelleCategorie = {
+        nom: this.saisieCategorie,
+        images: [],
+        editCategorie: false,
+      };
       this.categories.push(nouvelleCategorie);
       this.saisieCategorie = '';
       this.sauvegarde();
     }
+  }
+
+  onKeyUpTitreCategorie(categorie: Categorie, evenement: KeyboardEvent) {
+    if (evenement.key == 'Escape' || evenement.key == 'Enter') {
+      categorie.editCategorie = false;
+    }
+
+    this.sauvegarde();
   }
 
   supprimerCategorie(indexCategorie: number) {
@@ -67,6 +84,16 @@ export class AccueilComponent {
 
       this.sauvegarde();
     }
+  }
+
+  doubleClicNomCategorie(categorie: Categorie, evenement: any) {
+    categorie.editCategorie = true;
+
+    const elementClique: HTMLInputElement = evenement.target;
+    const enTeteClique = elementClique.closest('.en-tete');
+    const inputEnTete = enTeteClique?.querySelector('input');
+
+    setTimeout(() => inputEnTete?.focus(), 1);
   }
 
   ajouterImage() {

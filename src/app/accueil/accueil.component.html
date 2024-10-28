@@ -10,6 +10,10 @@
   <div (click)="ajouterCategorie()" class="bouton">Ajouter categorie</div>
 </div>
 
+<div class="champs">
+  <div (click)="reset()" class="bouton">Réinitialiser</div>
+</div>
+
 <div>
   @for (
     categorie of categories;
@@ -18,7 +22,17 @@
   ) {
     <div class="categorie">
       <div class="en-tete">
-        <span>{{ categorie.nom }}</span>
+        <input
+          [(ngModel)]="categorie.nom"
+          (keyup)="onKeyUpTitreCategorie(categorie, $event)"
+          [class.invisible]="!categorie.editCategorie"
+          (blur)="categorie.editCategorie = false; sauvegarde()"
+        />
+        <span
+          (dblclick)="doubleClicNomCategorie(categorie, $event)"
+          [class.invisible]="categorie.editCategorie"
+          >{{ categorie.nom }}</span
+        >
 
         @if (categories.length > 1) {
           <div
