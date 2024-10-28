@@ -11,6 +11,8 @@ import { FormsModule } from '@angular/forms';
 export class AccueilComponent {
   saisieImage = '';
 
+  saisieCategorie = '';
+
   categories: { nom: string; images: string[] }[] = [
     {
       nom: 'Super',
@@ -39,6 +41,20 @@ export class AccueilComponent {
   sauvegarde() {
     const jsonCategories = JSON.stringify(this.categories);
     localStorage.setItem('sauvegarde', jsonCategories);
+  }
+
+  ajouterCategorie() {
+    if (this.saisieCategorie != '') {
+      const nouvelleCategorie = { nom: this.saisieCategorie, images: [] };
+      this.categories.push(nouvelleCategorie);
+      this.saisieCategorie = '';
+      this.sauvegarde();
+    }
+  }
+
+  supprimerCategorie(indexCategorie: number) {
+    this.categories.splice(indexCategorie, 1);
+    this.sauvegarde();
   }
 
   ajouterImage() {

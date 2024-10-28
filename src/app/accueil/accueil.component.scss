@@ -29,6 +29,37 @@ h1::before {
   background-color: #eee;
   margin-bottom: 5px;
 
+  .en-tete,
+  .images .image {
+    position: relative;
+
+    &:hover .bouton {
+      display: block;
+    }
+
+    .bouton {
+      display: none;
+      position: absolute;
+      background-color: #0084ff;
+      color: white;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 24px;
+      text-align: center;
+      height: 25px;
+    }
+
+    .bouton:hover {
+      background-color: #6ac9eb;
+    }
+
+    .bouton-supprimer {
+      left: 10px;
+      bottom: 10px;
+      background-color: red;
+    }
+  }
+
   .en-tete {
     width: 100px;
     height: 100%;
@@ -77,26 +108,6 @@ h1::before {
         object-fit: cover;
       }
 
-      &:hover .bouton {
-        display: block;
-      }
-
-      .bouton {
-        display: none;
-        position: absolute;
-        background-color: #0084ff;
-        color: white;
-        font-weight: bold;
-        border-radius: 50%;
-        width: 24px;
-        text-align: center;
-        height: 25px;
-      }
-
-      .bouton:hover {
-        background-color: #6ac9eb;
-      }
-
       .bouton-plus {
         right: 10px;
         top: 10px;
@@ -105,12 +116,6 @@ h1::before {
       .bouton-moins {
         right: 10px;
         bottom: 10px;
-      }
-
-      .bouton-supprimer {
-        left: 10px;
-        bottom: 10px;
-        background-color: red;
       }
     }
   }

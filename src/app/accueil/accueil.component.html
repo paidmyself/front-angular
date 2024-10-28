@@ -2,7 +2,12 @@
 
 <div class="champs">
   <input [(ngModel)]="saisieImage" />
-  <div (click)="ajouterImage()" class="bouton">Ajouter</div>
+  <div (click)="ajouterImage()" class="bouton">Ajouter image</div>
+</div>
+
+<div class="champs">
+  <input [(ngModel)]="saisieCategorie" />
+  <div (click)="ajouterCategorie()" class="bouton">Ajouter categorie</div>
 </div>
 
 <div>
@@ -14,6 +19,12 @@
     <div class="categorie">
       <div class="en-tete">
         <span>{{ categorie.nom }}</span>
+        <div
+              (click)="supprimerCategorie(indexCategorie)"
+              class="bouton bouton-supprimer"
+            >
+             x
+        </div>
       </div>
       <div class="images">
         @for (
