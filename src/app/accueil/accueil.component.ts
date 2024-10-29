@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 declare type Categorie = {
@@ -21,7 +22,13 @@ export class AccueilComponent {
 
   categories: Categorie[] = [];
 
+  http: HttpClient = inject(HttpClient);
+
   ngOnInit() {
+    this.http
+      .get('http://localhost:3000/test')
+      .subscribe((listeTexte) => console.log(listeTexte));
+
     const jsonCategories = localStorage.getItem('sauvegarde');
 
     if (jsonCategories) {
