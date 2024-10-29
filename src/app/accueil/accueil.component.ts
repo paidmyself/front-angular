@@ -26,16 +26,16 @@ export class AccueilComponent {
 
   ngOnInit() {
     this.http
-      .get('http://localhost:3000/test')
-      .subscribe((listeTexte) => console.log(listeTexte));
+      .get('http://localhost:3000/categories')
+      .subscribe((categories : any) => (this.categories = categories));
 
-    const jsonCategories = localStorage.getItem('sauvegarde');
+    // const jsonCategories = localStorage.getItem('sauvegarde');
 
-    if (jsonCategories) {
-      this.categories = JSON.parse(jsonCategories);
-    } else {
-      this.reset();
-    }
+    // if (jsonCategories) {
+    //   this.categories = JSON.parse(jsonCategories);
+    // } else {
+    //   this.reset();
+    // }
   }
 
   reset() {
