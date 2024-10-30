@@ -10,6 +10,8 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { Router } from '@angular/router';
+import { ConnexionService } from '../services/connexion.service';
 
 @Component({
   selector: 'app-connexion',
@@ -27,6 +29,8 @@ import { MatInputModule } from '@angular/material/input';
 export class ConnexionComponent {
   constructeurFormulaire = inject(FormBuilder);
   http = inject(HttpClient);
+  router = inject(Router);
+  connexionService = inject(ConnexionService);
 
   formulaire: FormGroup = this.constructeurFormulaire.group({
     email: ['', [Validators.email, Validators.required]],
@@ -39,7 +43,11 @@ export class ConnexionComponent {
 
       this.http
         .post('http://localhost:3000/login', utilisateur)
-        .subscribe((reponse : any) => localStorage.setItem('jwt', reponse.jwt));
+        .subscribe((reponse: any) => {
+          localStorage.setItem('jwt', reponse.jwt);
+          this.connexionService.connecte = true;
+          this.router.navigateByUrl('/accueil');
+        });
     }
   }
 }

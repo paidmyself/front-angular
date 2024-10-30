@@ -19,11 +19,33 @@
     <div class="collapse navbar-collapse" id="navbarsExample04">
       <ul class="navbar-nav me-auto mb-2 mb-md-0">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/accueil" routerLinkActive="page-actuelle">Accueil</a>
+          <a
+            class="nav-link"
+            routerLink="/accueil"
+            routerLinkActive="page-actuelle"
+            >Accueil</a
+          >
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/connexion" routerLinkActive="page-actuelle">Connexion</a>
-        </li>
+
+        @if (!connexionService.connecte) {
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="/connexion"
+              routerLinkActive="page-actuelle"
+              >Connexion</a
+            >
+          </li>
+        } @else {
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              (click)="deconnexion()"
+              routerLink="/connexion"
+              >Deconnexion</a
+            >
+          </li>
+        }
       </ul>
       <form role="search">
         <input
