@@ -25,16 +25,9 @@ export class AccueilComponent {
   http: HttpClient = inject(HttpClient);
 
   ngOnInit() {
-    const jwt = localStorage.getItem('jwt');
-
-    //si la personne est connectée
-    if (jwt) {
-      this.http
-        .get('http://localhost:3000/categories', {
-          headers: { Authorization: jwt },
-        })
-        .subscribe((categories: any) => (this.categories = categories));
-    }
+    this.http
+      .get('http://localhost:3000/categories')
+      .subscribe((categories: any) => (this.categories = categories));
 
     // const jsonCategories = localStorage.getItem('sauvegarde');
 
