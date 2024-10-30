@@ -38,8 +38,8 @@ export class ConnexionComponent {
       const utilisateur = this.formulaire.value;
 
       this.http
-          .post('http://localhost:3000/login', utilisateur)
-          .subscribe(reponse => console.log(reponse));
+        .post('http://localhost:3000/login', utilisateur)
+        .subscribe((reponse : any) => localStorage.setItem('jwt', reponse.jwt));
     }
   }
 }
