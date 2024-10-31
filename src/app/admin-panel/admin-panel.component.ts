@@ -6,6 +6,8 @@ import { MatToolbar } from "@angular/material/toolbar";
 import { NgIf } from "@angular/common";
 import { MatError } from "@angular/material/form-field";
 import { MatButtonModule } from "@angular/material/button";
+import { MatDialog } from '@angular/material/dialog';
+import { ManageUserDialogComponent } from '../manage-user-dialog/manage-user-dialog.component';
 
 @Component({
   selector: "app-admin-panel",
@@ -26,9 +28,9 @@ export class AdminPanelComponent implements OnInit {
   loading: boolean = true;
   errorMessage: string | null = null;
 
-  displayedColumns: string[] = ['id', 'email', 'password', 'manage'];
+  displayedColumns: string[] = ['id', 'email', 'password', 'blocked', 'blockAction'];
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.loadUsers();
@@ -40,7 +42,10 @@ export class AdminPanelComponent implements OnInit {
     this.userService.getUsers().subscribe({
       next: (data) => {
         if (Array.isArray(data)) {
-          this.users = data;
+          this.users = data.map(user => ({
+            ...user,
+            blocked: user.blocked || false // Ensure blocked is a boolean
+          }));
           console.log(this.users);
         } else {
           this.errorMessage = 'Unexpected data format';
@@ -55,29 +60,15 @@ export class AdminPanelComponent implements OnInit {
     });
   }
 
-  onBlockUser(user: User): void {
-    if (user.blocked) {
-      this.userService.unblockUser(user.id).subscribe({
-        next: () => {
-          user.blocked = false;
-          console.log(`User with ID ${user.id} unblocked successfully.`);
-        },
-        error: (error) => {
-          console.error('Error unblocking user:', error);
-          this.errorMessage = 'Failed to unblock user';
-        }
-      });
-    } else {
-      this.userService.blockUser(user.id).subscribe({
-        next: () => {
-          user.blocked = true;
-          console.log(`User with ID ${user.id} blocked successfully.`);
-        },
-        error: (error) => {
-          console.error('Error blocking user:', error);
-          this.errorMessage = 'Failed to block user';
-        }
-      });
-    }
+  onManageUser(user: User): void {
+    const dialogRef = this.dialog.open(ManageUserDialogComponent, {
+      data: { user } // Pass the user data to the dialog
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadUsers(); // Reload users if changes were made
+      }
+    });
   }
 }

@@ -8,7 +8,7 @@ export interface User {
   id: number;
   email: string;
   password: string;
-  blocked?: boolean; // Optional, depending on if you fetch this field
+  blocked: boolean;
 }
 
 @Injectable({

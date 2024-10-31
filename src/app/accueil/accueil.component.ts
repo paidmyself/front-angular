@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatFormField, MatLabel } from "@angular/material/form-field";
+const jwt = localStorage.getItem('jwt');
 
 declare type Categorie = {
   nom: string;
@@ -11,10 +13,11 @@ declare type Categorie = {
 @Component({
   selector: 'app-accueil',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, MatLabel, MatFormField],
   templateUrl: './accueil.component.html',
   styleUrl: './accueil.component.scss',
 })
+
 export class AccueilComponent {
   saisieImage = '';
 
@@ -24,11 +27,14 @@ export class AccueilComponent {
 
   http: HttpClient = inject(HttpClient);
 
-  ngOnInit() {
-    this.http
-      .get('http://localhost:3000/categories')
-      .subscribe((categories: any) => (this.categories = categories));
 
+
+  ngOnInit() {
+    if(jwt) {
+      this.http
+        .get('http://localhost:3000/categories', { headers: { Authorizattion:jwt} })
+        .subscribe((categories: any) => (this.categories = categories));
+    }
     // const jsonCategories = localStorage.getItem('sauvegarde');
 
     // if (jsonCategories) {
@@ -126,3 +132,5 @@ export class AccueilComponent {
     this.sauvegarde();
   }
 }
+
+

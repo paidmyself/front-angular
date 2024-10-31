@@ -9,5 +9,10 @@ export class ConnexionService {
   constructor() {
     this.connecte = localStorage.getItem('jwt') != null;
   }
-}
 
+  deconnexion() {
+    localStorage.removeItem('jwt');
+
+    this.connecte = false;
+  }
+}

@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Manage User</h1>
+<div mat-dialog-content>
+  <p>{{ data.user.blocked ? 'Do you want to unblock this user?' : 'Do you want to block this user?' }}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button color="primary" (click)="onBlockUnblockUser()">
+    {{ data.user.blocked ? 'Unblock' : 'Block' }}
+  </button>
+</div>
