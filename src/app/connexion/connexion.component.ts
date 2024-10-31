@@ -51,23 +51,28 @@ interface LoginResponse {
   styleUrls: ['./connexion.component.scss'],
 })
 export class ConnexionComponent {
+  get dialog(): MatDialog {
+    return <MatDialog>this._dialog;
+  }
+
+  set dialog(value: MatDialog) {
+    this._dialog = value;
+  }
+  private _dialog: MatDialog // Inject MatDialog
+    | undefined // Inject MatDialog
   isLoading = false;
-  errorMessage: string | null = null;
+  constructeurFormulaire = inject(FormBuilder);
+  http = inject(HttpClient);
+  router = inject(Router);
+  connexionService = inject(ConnexionService);
+  errorMessage: string | null = null; // To hold error messages
 
-  constructor(
-    private fb: FormBuilder,
-    private http: HttpClient,
-    private router: Router,
-    private connexionService: ConnexionService,
-    private dialog: MatDialog
-  ) {}
-
-  formulaire: FormGroup = this.fb.group({
+  formulaire: FormGroup = this.constructeurFormulaire.group({
     email: ['', [Validators.email, Validators.required]],
     password: ['', [Validators.required]],
   });
-
   onConnexion() {
+    // Clear any existing error message
     this.errorMessage = null;
 
     if (this.formulaire.valid) {
@@ -81,19 +86,21 @@ export class ConnexionComponent {
           this.router.navigateByUrl('/accueil');
         },
         (error) => {
-          // Check for blocked user error based on status or response message
-          if (error.status === 403 && error.error.message === "Compte bloqué") {
-            this.errorMessage = 'Votre compte est bloqué.';
-          } else if (error.status === 403) {
-            this.errorMessage = 'Mot de passe incorrect';
+          let errorMessage: string; // Create a variable for the error message
+          // Handle error response
+          if (error.status === 403) {
+            errorMessage = 'Mot de passe incorrect';
           } else if (error.status === 404) {
-            this.errorMessage = 'Aucun utilisateur avec cet email';
+            errorMessage = 'Aucun utilisateur avec cet email';
           } else {
-            this.errorMessage = 'Une erreur est survenue, veuillez réessayer';
+            errorMessage = 'Une erreur est survenue, veuillez réessayer'; // General error
           }
+          this.dialog.open(ErrorDialogComponent, {
+            data: { message: errorMessage },
+          });
         },
         () => {
-          this.isLoading = false;
+          this.isLoading = false; // Ensure isLoading is set to false after request completes
         }
       );
     }
