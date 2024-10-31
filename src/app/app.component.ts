@@ -6,21 +6,31 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { ConnexionService } from './services/connexion.service';
+import { NgClass, NgIf } from "@angular/common";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgClass, NgIf],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
   connexionService = inject(ConnexionService);
-  // router = inject(Router);
+  router = inject(Router);
+
+
+  drawerOpen = false;
+
+  toggleDrawer() {
+    this.drawerOpen = !this.drawerOpen;
+  }
 
   deconnexion() {
-    localStorage.removeItem('jwt');
-    this.connexionService.connecte = false;
-    // this.router.navigateByUrl('/connexion');
+    this.connexionService.deconnexion();
+    this.router.navigateByUrl('/connexion');
   }
+
+
+
 }
