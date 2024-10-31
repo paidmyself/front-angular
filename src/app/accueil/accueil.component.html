@@ -1,0 +1,83 @@
+<h1>Tier list</h1>
+
+<div class="champs">
+  <input [(ngModel)]="saisieImage" />
+  <div (click)="ajouterImage()" class="bouton">Ajouter image</div>
+</div>
+
+<div class="champs">
+  <input [(ngModel)]="saisieCategorie" />
+  <div (click)="ajouterCategorie()" class="bouton">Ajouter categorie</div>
+</div>
+
+<div class="champs">
+  <div (click)="reset()" class="bouton">Réinitialiser</div>
+</div>
+
+<div>
+  @for (
+    categorie of categories;
+    let indexCategorie = $index;
+    track indexCategorie
+  ) {
+    <div class="categorie">
+      <div class="en-tete">
+        <input
+          [(ngModel)]="categorie.nom"
+          (keyup)="onKeyUpTitreCategorie(categorie, $event)"
+          [class.invisible]="!categorie.editCategorie"
+          (blur)="categorie.editCategorie = false; sauvegarde()"
+        />
+        <span
+          (dblclick)="doubleClicNomCategorie(categorie, $event)"
+          [class.invisible]="categorie.editCategorie"
+          >{{ categorie.nom }}</span
+        >
+
+        @if (categories.length > 1) {
+          <div
+            (click)="supprimerCategorie(indexCategorie)"
+            class="bouton bouton-supprimer"
+          >
+            x
+          </div>
+        }
+      </div>
+      <div class="images">
+        @for (
+          image of categorie.images;
+          let indexImage = $index;
+          track indexImage
+        ) {
+          <div class="image">
+            <img src="{{ image }}" />
+            @if (indexCategorie != 0) {
+              <div
+                (click)="deplacerImage(indexCategorie, indexImage, false)"
+                class="bouton bouton-plus"
+              >
+                +
+              </div>
+            }
+
+            @if (indexCategorie < categories.length - 1) {
+              <div
+                (click)="deplacerImage(indexCategorie, indexImage)"
+                class="bouton bouton-moins"
+              >
+                -
+              </div>
+            }
+
+            <div
+              (click)="supprimerImage(indexCategorie, indexImage)"
+              class="bouton bouton-supprimer"
+            >
+              x
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>
